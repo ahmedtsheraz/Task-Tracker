@@ -22,3 +22,43 @@
 
 <%= link_to "Edit", edit_task_path(@task) %>
 <%= link_to "Back", tasks_path %>
+
+<hr>
+
+<h2>Comments</h2>
+
+<% @comments.each do |comment| %>
+  <div>
+    <p>
+      <strong><%= comment.user.name %></strong>:
+      <%= comment.body %>
+    </p>
+
+    <%= link_to "Edit",
+                edit_task_comment_path(@task, comment) %>
+
+    <%= link_to "Delete",
+                task_comment_path(@task, comment),
+                method: :delete,
+                data: { confirm: "Are you sure?" } %>
+  </div>
+  <hr>
+<% end %>
+
+<h3>Add a Comment</h3>
+
+<%= form_with model: [@task, @comment], local: true do |form| %>
+  <div>
+    <%= form.label :body %>
+    <%= form.text_area :body %>
+  </div>
+
+  <div>
+    <%= form.label :user_id, "Comment as" %>
+    <%= form.collection_select :user_id, @users, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.submit "Add Comment" %>
+  </div>
+<% end %>
