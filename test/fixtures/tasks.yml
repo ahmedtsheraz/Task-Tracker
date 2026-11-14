@@ -1,13 +1,13 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+rails_task:
+  title: Learn Rails testing
+  description: Practice model and request tests
+  status: in_progress
+  due_date: 2026-11-20
+  user: ahmed
 
-one:
-  title: MyString
-  description: MyText
-  status: MyString
-  due_date: 2026-11-11
-
-two:
-  title: MyString
-  description: MyText
-  status: MyString
-  due_date: 2026-11-11
+blog_task:
+  title: Build a blog application
+  description: Practice Rails associations
+  status: pending
+  due_date: 2026-11-25
+  user: ali

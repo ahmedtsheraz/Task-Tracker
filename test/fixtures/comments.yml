@@ -1,9 +1,9 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+first_comment:
+  body: Great work on this task!
+  task: rails_task
+  user: ali
 
-one:
-  body: MyText
-  task: one
-
-two:
-  body: MyText
-  task: two
+second_comment:
+  body: I am also practicing Rails testing.
+  task: rails_task
+  user: ahmed
