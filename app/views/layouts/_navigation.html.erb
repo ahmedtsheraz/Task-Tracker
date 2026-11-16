@@ -1,0 +1,17 @@
+<nav>
+  <%= link_to "Task Tracker", tasks_path %> |
+  <%= link_to "Tasks", tasks_path %> |
+  <%= link_to "Users", users_path %>
+
+  <% if User.exists? %>
+    <%= form_with url: switch_users_path, method: :post, local: true do %>
+      <%= label_tag :user_id, "Current User:" %>
+
+      <%= select_tag :user_id,
+          options_from_collection_for_select(User.all, :id, :name, current_user&.id),
+          onchange: "this.form.submit();" %>
+    <% end %>
+  <% end %>
+</nav>
+
+<hr>

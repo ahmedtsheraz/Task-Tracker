@@ -1,19 +1,24 @@
 require 'test_helper'
 
 class CommentsControllerTest < ActionDispatch::IntegrationTest
+
   test "should create comment" do
     task = tasks(:rails_task)
+
+    post switch_users_url, params: {
+      user_id: users(:ali).id
+    }
 
     assert_difference "Comment.count", 1 do
       post task_comments_url(task), params: {
         comment: {
-          body: "This is a request test comment.",
-          user_id: users(:ahmed).id
+          body: "This is a request test comment."
         }
       }
     end
 
     assert_redirected_to task_url(task)
+    assert_equal users(:ali), Comment.last.user
   end
 
   test "should get edit" do
