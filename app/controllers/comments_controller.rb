@@ -7,8 +7,7 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to @task
     else
-      @comments = @task.comments.where.not(id: nil).includes(:user).to_a
-      # @users = User.all
+      @comments = @task.comments.includes(:user).to_a
       render "tasks/show"
     end
   end

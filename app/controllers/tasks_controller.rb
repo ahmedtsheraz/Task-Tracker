@@ -17,7 +17,6 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
-    # @task.user = User.first
     @task.user = current_user
 
     if @task.save
