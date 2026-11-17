@@ -1,13 +1,8 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
-  test "should switch current user" do
-    post switch_users_url, params: {
-      user_id: users(:ali).id
-    }
-
-    assert_equal users(:ali).id, session[:current_user_id]
-    assert_redirected_to users_url
+  setup do
+    sign_in users(:ahmed)
   end
 
   test "should show user's tasks" do
@@ -21,7 +16,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should show empty message when user has no tasks" do
     user = User.create!(
       name: "New User",
-      email: "newuser@example.com"
+      email: "newuser@example.com",
+      password: "123456",
+      password_confirmation: "123456"
     )
 
     get tasks_user_url(user)

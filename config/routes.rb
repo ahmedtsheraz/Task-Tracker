@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
+
+  devise_for :users
+  root "tasks#index"
+
   resources :tasks do
     resources :comments, only: [:create, :edit, :update, :destroy]
   end
 
   resources :users do
-    collection do
-      post :switch
-    end
 
     member do
       get :tasks

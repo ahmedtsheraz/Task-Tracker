@@ -1,21 +1,22 @@
 require 'test_helper'
 
 class TasksControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    sign_in users(:ahmed)
+  end
+
   test "should get index" do
     get tasks_url
-
     assert_response :success
   end
 
   test "should show task" do
     get task_url(tasks(:rails_task))
-
     assert_response :success
   end
 
   test "should get new" do
     get new_task_url
-
     assert_response :success
   end
 
@@ -36,7 +37,6 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "should get edit" do
     get edit_task_url(tasks(:rails_task))
-
     assert_response :success
   end
 
@@ -58,14 +58,10 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should assign task to current user" do
-    post switch_users_url, params: {
-      user_id: users(:ali).id
-    }
-
     assert_difference "Task.count", 1 do
       post tasks_url, params: {
         task: {
-          title: "Ali's new task",
+          title: "Ahmed's new task",
           description: "Testing current user assignment",
           status: "pending",
           due_date: "2026-12-01"
@@ -73,6 +69,6 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_equal users(:ali), Task.last.user
+    assert_equal users(:ahmed), Task.last.user
   end
 end

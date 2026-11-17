@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @users = User.all
   end
@@ -42,13 +44,6 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
-  # for switching between users
-  def switch
-    user = User.find(params[:user_id])
-    session[:current_user_id] = user.id
-
-    redirect_back fallback_location: users_path
-  end
 
   # for displaying specific user tasks 
   def tasks
