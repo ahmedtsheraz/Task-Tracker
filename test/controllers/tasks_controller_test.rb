@@ -56,4 +56,23 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to tasks_url
   end
+
+  test "should assign task to current user" do
+    post switch_users_url, params: {
+      user_id: users(:ali).id
+    }
+
+    assert_difference "Task.count", 1 do
+      post tasks_url, params: {
+        task: {
+          title: "Ali's new task",
+          description: "Testing current user assignment",
+          status: "pending",
+          due_date: "2026-12-01"
+        }
+      }
+    end
+
+    assert_equal users(:ali), Task.last.user
+  end
 end

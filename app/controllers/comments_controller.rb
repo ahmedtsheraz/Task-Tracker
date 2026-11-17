@@ -2,13 +2,12 @@ class CommentsController < ApplicationController
   def create
     @task = Task.find(params[:task_id])
     @comment = @task.comments.new(comment_params)
-    @comment.user = User.find(params[:comment][:user_id])
+    @comment.user = current_user
 
     if @comment.save
       redirect_to @task
     else
-      @comments = @task.comments.where.not(id: nil).includes(:user).to_a
-      @users = User.all
+      @comments = @task.comments.includes(:user).to_a
       render "tasks/show"
     end
   end
