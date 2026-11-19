@@ -1,0 +1,93 @@
+/* ==========================
+   Task Tracker Color Palette
+   ========================== */
+
+:root {
+  --tt-black: #000000;
+  --tt-navy: #14213D;
+  --tt-orange: #FCA311;
+  --tt-grey: #E5E5E5;
+  --tt-white: #FFFFFF;
+}
+
+/* ==========================
+   Global Styling
+   ========================== */
+
+body {
+  background-color: var(--tt-grey);
+  color: var(--tt-black);
+  font-family: Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--tt-navy);
+}
+
+/* ==========================
+   Navigation
+   ========================== */
+
+.navbar.bg-dark {
+  background-color: var(--tt-navy) !important;
+}
+
+/* ==========================
+   Buttons
+   ========================== */
+
+.btn-primary {
+  background-color: var(--tt-navy);
+  border-color: var(--tt-navy);
+}
+
+.btn-primary:hover {
+  background-color: #1e3157;
+  border-color: #1e3157;
+}
+
+.btn-warning {
+  background-color: var(--tt-orange);
+  border-color: var(--tt-orange);
+  color: var(--tt-black);
+}
+
+.btn-warning:hover {
+  background-color: #e59400;
+  border-color: #e59400;
+  color: var(--tt-black);
+}
+
+/* ==========================
+   Cards
+   ========================== */
+
+.card {
+  background-color: var(--tt-white);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================
+   Tables
+   ========================== */
+
+.table {
+  background-color: var(--tt-white);
+}
+
+.table thead th {
+  background-color: var(--tt-navy);
+  color: var(--tt-white);
+  border-color: var(--tt-navy);
+}
+
+/* ==========================
+   Forms
+   ========================== */
+
+.form-control:focus {
+  border-color: var(--tt-orange);
+  box-shadow: 0 0 0 0.2rem rgba(252, 163, 17, 0.25);
+}

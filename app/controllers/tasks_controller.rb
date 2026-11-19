@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  before_action :authenticate_user!
   
   def index
     @tasks = Task.all
@@ -17,7 +18,8 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
-    @task.user = User.first
+    # @task.user = User.first
+    @task.user = current_user
 
     if @task.save
       redirect_to @task
@@ -27,11 +29,11 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
   end
 
   def update
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
 
     if @task.update(task_params)
       redirect_to @task
@@ -41,12 +43,11 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
     @task.destroy
 
     redirect_to tasks_path
   end
-
   private
 
   def task_params
