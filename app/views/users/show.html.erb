@@ -1,29 +1,58 @@
-<h1>User Details</h1>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+          <h2 class="text-center mb-4">User Details</h2>
 
-<p>
-  <strong>Tasks:</strong>
-  <%= link_to "View all tasks (#{@user.tasks.count})", tasks_user_path(@user) %>
-</p>
+          <div class="text-center mb-4">
+            <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center"
+                 style="width: 80px; height: 80px;">
+              <span class="h2 mb-0 text-primary">
+                <%= @user.name.first.upcase %>
+              </span>
+            </div>
 
-<p>
-  <strong>Comments:</strong>
-  <%= @user.comments.count %>
-</p>
+            <h4 class="mt-3 mb-1"><%= @user.name %></h4>
+            <p class="text-muted mb-0"><%= @user.email %></p>
+          </div>
 
-<%= link_to "Edit", edit_user_path(@user) %> |
-<%= link_to "Back to Users", users_path %>
+          <hr>
 
-<br><br>
+          <div class="row text-center">
+            <div class="col-6 border-right">
+              <h4 class="text-primary mb-1">
+                <%= @user.tasks.count %>
+              </h4>
+              <%= link_to "View Tasks", tasks_user_path(@user),
+                          class: "text-muted" %>
+            </div>
 
-<%= link_to "Delete User", @user, method: :delete,
-    data: { confirm: "Are you sure?" } %>
+            <div class="col-6">
+              <h4 class="text-primary mb-1">
+                <%= @user.comments.count %>
+              </h4>
+              <span class="text-muted">Comments</span>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+            <div class="text-center">
+              <%= link_to "Edit Profile", edit_user_path(@user),
+                          class: "btn btn-warning mr-2" %>
+
+              <%= link_to "Delete My Account", user_path(@user),
+                          method: :delete,
+                          data: { confirm: "Are you sure? This will permanently delete your account, tasks and comments." },
+                          class: "btn btn-danger" %>
+            </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

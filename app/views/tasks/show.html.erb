@@ -1,59 +1,117 @@
-<h1><%= @task.title %></h1>
+<div class="container py-5">
 
-<p>
-  <strong>Description:</strong>
-  <%= @task.description %>
-</p>
+  <!-- Task Details -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body p-4">
 
-<p>
-  <strong>Status:</strong>
-  <%= @task.status %>
-</p>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0"><%= @task.title %></h2>
 
-<p>
-  <strong>Due Date:</strong>
-  <%= @task.due_date %>
-</p>
+        <% status_class = case @task.status
+           when "pending" then "badge-warning"
+           when "in_progress" then "badge-primary"
+           when "completed" then "badge-success"
+           else "badge-secondary"
+           end %>
 
-<p>
-  <strong>Assigned To:</strong>
-  <%= @task.user.name %>
-</p>
+        <span class="badge <%= status_class %> p-2">
+          <%= @task.status.humanize %>
+        </span>
+      </div>
 
-<%= link_to "Edit", edit_task_path(@task) %>
-<%= link_to "Back", tasks_path %>
+      <hr>
 
-<hr>
+      <div class="mb-3">
+        <strong>Description</strong>
+        <p class="text-muted mt-1">
+          <%= @task.description.presence || "No description provided." %>
+        </p>
+      </div>
 
-<h2>Comments</h2>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <strong>Due Date</strong>
+          <p class="text-muted mt-1"><%= @task.due_date || "Not set" %></p>
+        </div>
 
-<% @comments.each do |comment| %>
-  <div>
-    <p>
-      <strong><%= comment.user.name %></strong>:
-      <%= comment.body %>
-    </p>
+        <div class="col-md-6 mb-3">
+          <strong>Assigned To</strong>
+          <p class="text-muted mt-1"><%= @task.user.name %></p>
+        </div>
+      </div>
 
-    <%= link_to "Edit",
-                edit_task_comment_path(@task, comment) %>
+      <hr>
 
-    <%= link_to "Delete",
-                task_comment_path(@task, comment),
-                method: :delete,
-                data: { confirm: "Are you sure?" } %>
-  </div>
-  <hr>
-<% end %>
-
-<h3>Add a Comment</h3>
-
-<%= form_with model: [@task, @comment], local: true do |form| %>
-  <div>
-    <%= form.label :body %>
-    <%= form.text_area :body %>
+      <%= link_to "Back to Tasks", tasks_path,
+                  class: "btn btn-outline-primary" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.submit "Add Comment" %>
+  <!-- Comments -->
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+
+      <h3 class="mb-4">Comments</h3>
+
+      <% if @comments.any? %>
+        <% @comments.each do |comment| %>
+
+          <div class="border rounded p-3 mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+
+              <strong><%= comment.user.name %></strong>
+
+              <div>
+                <%= link_to "Edit",
+                            edit_task_comment_path(@task, comment),
+                            class: "btn btn-warning btn-sm" %>
+
+                <%= link_to "Delete",
+                            task_comment_path(@task, comment),
+                            method: :delete,
+                            data: { confirm: "Are you sure?" },
+                            class: "btn btn-danger btn-sm" %>
+              </div>
+
+            </div>
+
+            <p class="mb-0 text-muted"><%= comment.body %></p>
+          </div>
+
+        <% end %>
+      <% else %>
+        <p class="text-muted">No comments yet. Be the first to comment!</p>
+      <% end %>
+
+      <hr class="my-4">
+
+      <h4 class="mb-3">Add a Comment</h4>
+
+      <%= form_with model: [@task, @comment], local: true do |form| %>
+
+        <% if @comment.errors.any? %>
+          <div class="alert alert-danger" role="alert">
+            <ul class="mb-0 pl-3">
+              <% @comment.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= form.label :body %>
+          <%= form.text_area :body, rows: 3,
+                             class: "form-control",
+                             placeholder: "Write your comment..." %>
+        </div>
+
+        <%= form.submit "Add Comment",
+                        class: "btn btn-warning" %>
+
+      <% end %>
+
+    </div>
   </div>
-<% end %>
+
+</div>

@@ -1,29 +1,75 @@
-<h1>Tasks for <%= @user.name %></h1>
+<div class="container py-5">
 
-<%= link_to "Back to User", @user %>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">My Tasks</h2>
 
-<% if @tasks.any? %>
-  <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Status</th>
-        <th>Due Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+    <%= link_to "Back to Profile", user_path(current_user),
+                class: "btn btn-outline-primary" %>
+  </div>
 
-    <tbody>
-      <% @tasks.each do |task| %>
-        <tr>
-          <td><%= task.title %></td>
-          <td><%= task.status %></td>
-          <td><%= task.due_date %></td>
-          <td><%= link_to "Show", task_path(task) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>This user has no tasks yet.</p>
-<% end %>
+  <% if @tasks.any? %>
+    <div class="card shadow-sm">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+
+          <thead class="thead-light">
+            <tr>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Due Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @tasks.each do |task| %>
+              <tr>
+                <td><%= task.title %></td>
+
+                <td>
+                  <% status_class = case task.status
+                     when "pending" then "badge-warning"
+                     when "in_progress" then "badge-primary"
+                     when "completed" then "badge-success"
+                     else "badge-secondary"
+                     end %>
+
+                  <span class="badge <%= status_class %>">
+                    <%= task.status.humanize %>
+                  </span>
+                </td>
+
+                <td><%= task.due_date || "Not set" %></td>
+
+                <td>
+                  <%= link_to "Show", task_path(task),
+                              class: "btn btn-outline-primary btn-sm" %>
+
+                  <%= link_to "Edit", edit_task_path(task),
+                              class: "btn btn-warning btn-sm" %>
+
+                  <%= link_to "Delete", task_path(task),
+                              method: :delete,
+                              data: { confirm: "Are you sure you want to delete this task?" },
+                              class: "btn btn-danger btn-sm" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+  <% else %>
+    <div class="card shadow-sm">
+      <div class="card-body text-center py-5">
+        <h5 class="text-muted">You don't have any tasks yet.</h5>
+
+        <%= link_to "Create New Task", new_task_path,
+                    class: "btn btn-warning mt-3" %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

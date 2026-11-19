@@ -1,31 +1,71 @@
-<h1>All Tasks</h1>
+<div class="container py-5">
 
-<%= link_to "New Task", new_task_path %>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">All Tasks</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Status</th>
-      <th>Due Date</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
+    <%= link_to "New Task", new_task_path,
+                class: "btn btn-warning" %>
+  </div>
 
-  <tbody>
-    <% @tasks.each do |task| %>
-      <tr>
-        <td><%= task.title %></td>
-        <td><%= task.status %></td>
-        <td><%= task.due_date %></td>
-        <td>
-          <%= link_to "Show", task_path(task) %>
-          <%= link_to "Edit", edit_task_path(task) %>
-          <%= link_to "Delete", task_path(task),
-                      method: :delete,
-                      data: { confirm: "Are you sure?" } %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Due Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% if @tasks.any? %>
+              <% @tasks.each do |task| %>
+                <tr>
+                  <td class="align-middle">
+                    <%= task.title %>
+                  </td>
+
+                  <td class="align-middle">
+                    <% status_class = case task.status
+                       when "pending" then "badge-warning"
+                       when "in_progress" then "badge-primary"
+                       when "completed" then "badge-success"
+                       else "badge-secondary"
+                       end %>
+
+                    <span class="badge <%= status_class %> p-2">
+                      <%= task.status.humanize %>
+                    </span>
+                  </td>
+
+                  <td class="align-middle">
+                    <%= task.due_date %>
+                  </td>
+
+                  <td class="align-middle">
+                    <%= link_to "Show", task_path(task),
+                                class: "btn btn-outline-primary btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="4" class="text-center text-muted py-4">
+                  No tasks found. Create your first task!
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

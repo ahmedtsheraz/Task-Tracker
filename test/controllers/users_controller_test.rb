@@ -9,7 +9,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get tasks_user_url(users(:ahmed))
 
     assert_response :success
-    assert_select "h1", "Tasks for #{users(:ahmed).name}"
+    assert_select "h2", "My Tasks"
     assert_select "td", text: tasks(:rails_task).title
   end
 
@@ -21,9 +21,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       password_confirmation: "123456"
     )
 
+    sign_in user
+
     get tasks_user_url(user)
 
     assert_response :success
-    assert_select "p", "This user has no tasks yet."
+    assert_select "h5", "You don't have any tasks yet."
   end
 end

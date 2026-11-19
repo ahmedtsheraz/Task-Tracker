@@ -1,5 +1,24 @@
-<h1>New Task</h1>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
 
-<%= render "form" %>
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
 
-<%= link_to "Back", tasks_path %>
+          <h2 class="text-center mb-4">Create New Task</h2>
+
+          <%= render "form" %>
+
+          <hr>
+
+          <div class="text-center">
+            <%= link_to "Back to Tasks", tasks_path,
+                        class: "btn btn-outline-primary" %>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
